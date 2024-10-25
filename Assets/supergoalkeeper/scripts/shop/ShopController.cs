@@ -44,7 +44,8 @@ public class ShopController : MonoBehaviour {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.isNetworkError)
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 foreach (Transform child in transform)
                 {
