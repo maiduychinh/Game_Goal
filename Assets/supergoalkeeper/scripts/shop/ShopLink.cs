@@ -136,10 +136,10 @@ public class ShopLink : MonoBehaviour, IProduct {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.isNetworkError)
-            {
-                Debug.Log("WWW Error: " + webRequest.error);
-            }
+			if (webRequest.result == UnityWebRequest.Result.ConnectionError)
+			{
+				Debug.Log("WWW Error: " + webRequest.error);
+			}
             else
             {
                 GameObject imageAux = _inputImage.transform.Find("Image").gameObject;

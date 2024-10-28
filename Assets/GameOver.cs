@@ -2,30 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class GameOver : MonoBehaviour
 {
-  
     public void OnOpen()
     {
         this.gameObject.SetActive(true);
+
     }
 
     public void OnClose()
     {
         this.gameObject.SetActive(false);
     }
+    public void OnClickOverReTry()
+    {
 
-    public void OnClickPlay()
-    {
-        GameController.instance.CurrentID = 1;
+
         GameController.instance.LoadLevel(GameController.instance.CurrentID);
-        this.OnClose();
-       
+        OnClose();
     }
-    
-    public void Quit()
+    public void OnClickOverMenu()
     {
-        Application.Quit();
-        Debug.Log("Player has quit ");
+
+        OnClose();
+        UiController.instance.mainMenu.OnOpen();
+        GameController.instance.DestroyLevel();
     }
 }

@@ -9,8 +9,7 @@ public class UiController : MonoBehaviour
     public MainMenu mainMenu;
     public Spawner spawner;
     public PauseWin pauseWin;
-    //public PauseLevel PauseLevel;
-    //public GameOver gameOver;
+    public GameOver gameOver;
 
     private void Awake()
     {

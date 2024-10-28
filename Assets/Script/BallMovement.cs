@@ -1,14 +1,14 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
+    private bool hasWon = false; 
     public float speed = 5f;
     public Rigidbody2D rb;
-    public int direction = 1; // 1: phải, 2: trái, 3: lên, 4: xuống
-
+    public int direction = 1; 
+    private readonly bool isMoving = true;
 
     public void Runing()
     {
@@ -21,42 +21,39 @@ public class BallMovement : MonoBehaviour
 
     private void Launch()
     {
-        Vector2 moveDirection = Vector2.zero;
-        switch (direction)
+        if (!isMoving) return;
+        _ = Vector2.zero;
+        Vector2 moveDirection = direction switch
         {
-            case 1: 
-                moveDirection = Vector2.right;
-                break;
-            case 2: 
-                moveDirection = Vector2.left;
-                break;
-            case 3: 
-                moveDirection = Vector2.up;
-                break;
-            case 4:
-                moveDirection = Vector2.down;
-                break;
-            default:
-                moveDirection = Vector2.right; 
-                break;
-        }
+            1 => Vector2.right,
+            2 => Vector2.left,
+            3 => Vector2.up,
+            4 => Vector2.down,
+            _ => Vector2.right,
+        };
         rb.velocity = moveDirection * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Goal"))
+        if (other.gameObject.CompareTag("Goal") && !hasWon)
         {
-            Debug.Log("win");
             GameController.instance.DoWin();
             GameController.instance.DestroyLevel();
-           
 
+            hasWon = true;
         }
-        // Nhớ đổi is trigger
-        if (other.gameObject.CompareTag("War"))
+        else if (other.gameObject.CompareTag("War") && !hasWon)
         {
-            Debug.Log("Lose");
+            UiController.instance.gameOver.OnOpen();
+            GameController.instance.DestroyLevel();
+            hasWon = true;
         }
+
+
+
+
     }
 }
+
+ 

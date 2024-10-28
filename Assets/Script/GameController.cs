@@ -23,32 +23,36 @@ public class GameController : MonoBehaviour
         string levelPath = "Level/Level" + id;
 
         DestroyLevel();
-
-        GameObject levelPrefab = Resources.Load<GameObject>(levelPath);
-        
-        if (levelPrefab != null)
-        {
-
-            currentLevel = Instantiate(levelPrefab);
-            currentLevel.name = "Level" + id;
-            if (currentLevel.GetComponent<Spawner>() != null)
+        if (id >= 1 && id <= 10) {
+            GameObject levelPrefab = Resources.Load<GameObject>(levelPath);
+            if (levelPrefab != null)
             {
-                SpawnerCurrent = currentLevel.GetComponent<Spawner>();
-            }
-            else
-            {
-                SpawnerCurrent = null;
-            }
 
+                currentLevel = Instantiate(levelPrefab);
+                currentLevel.name = "Level" + id;
+                if (currentLevel.GetComponent<Spawner>() != null)
+                {
+                    SpawnerCurrent = currentLevel.GetComponent<Spawner>();
+                }
+                else
+                {
+                    SpawnerCurrent = null;
+                }
+
+            }
         }
+        
+        
+        
     }
     public void DestroyLevel()
     {
         if (currentLevel != null)
         {
+           
             Destroy(currentLevel);
             currentLevel = null;
-            Debug.Log("Destroyed current level");
+            
 
         }
         Resources.UnloadUnusedAssets();
@@ -64,7 +68,6 @@ public class GameController : MonoBehaviour
     }
     public void DoWin()
     {
-
         UiController.instance.pauseWin.OnOpen();
     }
     public void PauseGame()

@@ -7,7 +7,6 @@ public class PauseWin : MonoBehaviour
     public void OnOpen()
     {
         this.gameObject.SetActive(true);
-        Debug.Log("aaaaaaaaaaaaaaaaaaaaaa");
       
     }
 
