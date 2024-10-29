@@ -1,63 +1,115 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
-    private bool hasWon = false; 
+    private bool hasWon = false;
     public float speed = 5f;
-    public Rigidbody2D rb;
-    public int direction = 1; 
-    private readonly bool isMoving = true;
+    private bool isMoving = true;
 
-    public void Runing()
+    private Rigidbody2D rb;
+    private Collider2D ballCollider;
+
+    private Vector2 startTouchPosition, endTouchPosition;
+
+    private void Start()
     {
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody2D>();
-        }
-        Launch();
+        rb = GetComponent<Rigidbody2D>();
+        ballCollider = GetComponent<Collider2D>();
+        ballCollider.enabled = false;
     }
 
-    private void Launch()
+
+    private void Update()
     {
-        if (!isMoving) return;
-        _ = Vector2.zero;
-        Vector2 moveDirection = direction switch
+        ballCollider.enabled = true;
+        if (Input.GetMouseButtonDown(0))
         {
-            1 => Vector2.right,
-            2 => Vector2.left,
-            3 => Vector2.up,
-            4 => Vector2.down,
-            _ => Vector2.right,
-        };
-        rb.velocity = moveDirection * speed;
+            startTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0) && isMoving)
+        {
+            endTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 swipeDirection = endTouchPosition - startTouchPosition;
+            rb.velocity = swipeDirection.normalized * speed;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other is EdgeCollider2D && !hasWon)
         {
-            UiController.instance.gameOver.OnOpen();
-            GameController.instance.DestroyLevel(); 
-            hasWon = true; 
+            rb.velocity = Vector2.zero;
         }
-        if (other.gameObject.CompareTag("Goal") && !hasWon)
+        else if (other.gameObject.CompareTag("Goal") && !hasWon)
         {
             GameController.instance.DoWin();
             GameController.instance.DestroyLevel();
-
             hasWon = true;
         }
         else if (other.gameObject.CompareTag("War") && !hasWon)
         {
-            UiController.instance.gameOver.OnOpen();
-            GameController.instance.DestroyLevel();
-            hasWon = true;
+            rb.velocity = Vector2.zero;
+            isMoving = false;
+        }
+    }
+}
+*/
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BallMovement : MonoBehaviour
+{
+    private bool hasWon = false;
+    public float speed = 5f;
+    private bool isMoving = true;
+
+    private Rigidbody2D rb;
+    private Collider2D ballCollider;
+
+    private Vector2 startTouchPosition, endTouchPosition;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        ballCollider = GetComponent<Collider2D>();
+        ballCollider.enabled = false;
+    }
+
+    private void Update()
+    {
+        ballCollider.enabled = true;
+        if (Input.GetMouseButtonDown(0))
+        {
+            startTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0) && isMoving)
+        {
+            endTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 swipeDirection = endTouchPosition - startTouchPosition;
+            rb.velocity = swipeDirection.normalized * speed;
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other is EdgeCollider2D && !hasWon)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else if (other.gameObject.CompareTag("Goal") && !hasWon)
+        {
+            GameController.instance.DoWin();
+            GameController.instance.DestroyLevel();
+            hasWon = true;
+        }
+        else if (other.gameObject.CompareTag("War") && !hasWon)
+        {
+            rb.velocity = Vector2.zero;
+            isMoving = false;
+        }
+    }
 }
-
- 

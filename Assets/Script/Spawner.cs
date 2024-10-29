@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
     public void OnClickStart()
     {
         start.OnClose();
-        ballMovement.Runing();
+        
         triangleRed.SetInteractable(false);
         btnRotate1.OnClose();
         btnRotate2.OnClose();

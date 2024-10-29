@@ -1,0 +1,580 @@
+
+nc-fly-room.png
+size: 996,592
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Emoji/emo_10
+  rotate: false
+  xy: 228, 339
+  size: 95, 60
+  orig: 95, 60
+  offset: 0, 0
+  index: -1
+Emoji/emo_17
+  rotate: true
+  xy: 731, 66
+  size: 87, 73
+  orig: 87, 73
+  offset: 0, 0
+  index: -1
+Emoji/emo_20_c
+  rotate: false
+  xy: 232, 149
+  size: 92, 42
+  orig: 92, 42
+  offset: 0, 0
+  index: -1
+Emoji/emo_20_d
+  rotate: false
+  xy: 326, 149
+  size: 92, 42
+  orig: 92, 42
+  offset: 0, 0
+  index: -1
+Emoji/emo_25a
+  rotate: true
+  xy: 432, 484
+  size: 106, 89
+  orig: 106, 89
+  offset: 0, 0
+  index: -1
+Emoji/emo_25b
+  rotate: true
+  xy: 523, 484
+  size: 106, 89
+  orig: 106, 89
+  offset: 0, 0
+  index: -1
+Emoji/emo_38
+  rotate: true
+  xy: 492, 231
+  size: 106, 89
+  orig: 106, 89
+  offset: 0, 0
+  index: -1
+Emoji/emo_49
+  rotate: true
+  xy: 333, 476
+  size: 114, 97
+  orig: 114, 97
+  offset: 0, 0
+  index: -1
+Emoji/emo_50
+  rotate: true
+  xy: 2, 5
+  size: 110, 89
+  orig: 110, 89
+  offset: 0, 0
+  index: -1
+Emoji/emo_55
+  rotate: false
+  xy: 325, 339
+  size: 118, 71
+  orig: 118, 71
+  offset: 0, 0
+  index: -1
+Emoji/emo_74
+  rotate: true
+  xy: 899, 500
+  size: 90, 95
+  orig: 90, 95
+  offset: 0, 0
+  index: -1
+Emoji/emo_74d
+  rotate: true
+  xy: 813, 364
+  size: 87, 84
+  orig: 87, 84
+  offset: 0, 0
+  index: -1
+Emoji/emo_84
+  rotate: true
+  xy: 899, 408
+  size: 90, 95
+  orig: 90, 95
+  offset: 0, 0
+  index: -1
+Emoji/emo_84_b
+  rotate: false
+  xy: 639, 144
+  size: 90, 91
+  orig: 90, 91
+  offset: 0, 0
+  index: -1
+Emoji/emo_89
+  rotate: true
+  xy: 93, 2
+  size: 141, 117
+  orig: 141, 117
+  offset: 0, 0
+  index: -1
+Emoji/emo_92_b
+  rotate: true
+  xy: 627, 340
+  size: 92, 97
+  orig: 92, 97
+  offset: 0, 0
+  index: -1
+Emoji/emo_93_c
+  rotate: false
+  xy: 806, 172
+  size: 90, 73
+  orig: 90, 73
+  offset: 0, 0
+  index: -1
+Emoji/emo_93_c2
+  rotate: false
+  xy: 806, 97
+  size: 90, 73
+  orig: 90, 73
+  offset: 0, 0
+  index: -1
+Emoji/emo_95
+  rotate: false
+  xy: 810, 492
+  size: 87, 98
+  orig: 87, 98
+  offset: 0, 0
+  index: -1
+Emoji/emo_96
+  rotate: false
+  xy: 898, 234
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+Emoji/hoi_cham
+  rotate: false
+  xy: 512, 149
+  size: 30, 52
+  orig: 30, 52
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_1
+  rotate: false
+  xy: 498, 431
+  size: 78, 51
+  orig: 78, 51
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_10
+  rotate: true
+  xy: 731, 155
+  size: 96, 73
+  orig: 96, 73
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_16
+  rotate: false
+  xy: 603, 434
+  size: 101, 48
+  orig: 101, 48
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_21_d
+  rotate: false
+  xy: 899, 332
+  size: 95, 74
+  orig: 95, 74
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_4
+  rotate: true
+  xy: 500, 24
+  size: 123, 65
+  orig: 123, 65
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_41
+  rotate: false
+  xy: 806, 4
+  size: 91, 91
+  orig: 91, 91
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_42
+  rotate: false
+  xy: 639, 51
+  size: 87, 91
+  orig: 87, 91
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_43
+  rotate: false
+  xy: 544, 149
+  size: 93, 80
+  orig: 93, 80
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_5
+  rotate: true
+  xy: 726, 347
+  size: 99, 85
+  orig: 99, 85
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_56
+  rotate: true
+  xy: 523, 339
+  size: 90, 102
+  orig: 90, 102
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_57
+  rotate: true
+  xy: 445, 339
+  size: 82, 76
+  orig: 82, 76
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_5b
+  rotate: false
+  xy: 899, 67
+  size: 72, 69
+  orig: 72, 69
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_64
+  rotate: false
+  xy: 731, 253
+  size: 79, 92
+  orig: 79, 92
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_6b
+  rotate: false
+  xy: 614, 487
+  size: 97, 103
+  orig: 97, 103
+  offset: 0, 0
+  index: -1
+Emoji/new/emo_9
+  rotate: false
+  xy: 898, 138
+  size: 96, 94
+  orig: 96, 94
+  offset: 0, 0
+  index: -1
+ba_cham
+  rotate: false
+  xy: 171, 390
+  size: 41, 9
+  orig: 41, 9
+  offset: 0, 0
+  index: -1
+giat_minh
+  rotate: false
+  xy: 567, 81
+  size: 70, 66
+  orig: 70, 66
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 232, 193
+  size: 144, 144
+  orig: 144, 144
+  offset: 0, 0
+  index: -1
+head_7
+  rotate: false
+  xy: 244, 3
+  size: 144, 144
+  orig: 144, 144
+  offset: 0, 0
+  index: -1
+item/binh_tuoi_nuoc
+  rotate: true
+  xy: 426, 220
+  size: 117, 64
+  orig: 117, 64
+  offset: 0, 0
+  index: -1
+item/bua_go
+  rotate: false
+  xy: 79, 387
+  size: 90, 203
+  orig: 90, 203
+  offset: 0, 0
+  index: -1
+item/dien_thoai
+  rotate: false
+  xy: 171, 401
+  size: 57, 189
+  orig: 57, 189
+  offset: 0, 0
+  index: -1
+item/item_to_bao
+  rotate: true
+  xy: 80, 145
+  size: 191, 150
+  orig: 191, 150
+  offset: 0, 0
+  index: -1
+item/micro
+  rotate: true
+  xy: 706, 448
+  size: 37, 89
+  orig: 37, 89
+  offset: 0, 0
+  index: -1
+item/patin
+  rotate: true
+  xy: 713, 490
+  size: 100, 95
+  orig: 100, 95
+  offset: 0, 0
+  index: -1
+item/van_truot
+  rotate: true
+  xy: 2, 338
+  size: 252, 75
+  orig: 252, 75
+  offset: 0, 0
+  index: -1
+item/xe_thang_bang1
+  rotate: false
+  xy: 634, 237
+  size: 95, 101
+  orig: 95, 101
+  offset: 0, 0
+  index: -1
+item/xe_thang_bang2
+  rotate: true
+  xy: 230, 412
+  size: 178, 101
+  orig: 178, 101
+  offset: 0, 0
+  index: -1
+kho
+  rotate: true
+  xy: 333, 417
+  size: 57, 33
+  orig: 57, 33
+  offset: 0, 0
+  index: -1
+lap_lanh
+  rotate: true
+  xy: 567, 45
+  size: 34, 70
+  orig: 34, 70
+  offset: 0, 0
+  index: -1
+love
+  rotate: false
+  xy: 368, 417
+  size: 24, 57
+  orig: 24, 57
+  offset: 0, 0
+  index: -1
+mieng-1
+  rotate: false
+  xy: 123, 338
+  size: 30, 47
+  orig: 30, 47
+  offset: 0, 0
+  index: -1
+mo_hoi
+  rotate: true
+  xy: 406, 2
+  size: 19, 41
+  orig: 19, 41
+  offset: 0, 0
+  index: -1
+nham_1
+  rotate: false
+  xy: 420, 149
+  size: 90, 49
+  orig: 90, 49
+  offset: 0, 0
+  index: -1
+nham_2
+  rotate: false
+  xy: 394, 423
+  size: 102, 51
+  orig: 102, 51
+  offset: 0, 0
+  index: -1
+nham_3
+  rotate: false
+  xy: 797, 453
+  size: 89, 35
+  orig: 89, 35
+  offset: 0, 0
+  index: -1
+nham_4
+  rotate: false
+  xy: 812, 247
+  size: 82, 33
+  orig: 82, 33
+  offset: 0, 0
+  index: -1
+scare
+  rotate: true
+  xy: 813, 282
+  size: 80, 83
+  orig: 80, 83
+  offset: 0, 0
+  index: -1
+skin-1/body
+  rotate: false
+  xy: 2, 117
+  size: 11, 219
+  orig: 11, 219
+  offset: 0, 0
+  index: -1
+skin-1/shouder
+  rotate: true
+  xy: 449, 6
+  size: 15, 105
+  orig: 15, 105
+  offset: 0, 0
+  index: -1
+skin-1/thigh
+  rotate: false
+  xy: 212, 6
+  size: 14, 137
+  orig: 14, 137
+  offset: 0, 0
+  index: -1
+skin-2/body
+  rotate: false
+  xy: 15, 117
+  size: 11, 219
+  orig: 11, 219
+  offset: 0, 0
+  index: -1
+skin-2/shouder
+  rotate: true
+  xy: 556, 7
+  size: 15, 105
+  orig: 15, 105
+  offset: 0, 0
+  index: -1
+skin-2/thigh
+  rotate: false
+  xy: 228, 6
+  size: 14, 137
+  orig: 14, 137
+  offset: 0, 0
+  index: -1
+skin-3/body
+  rotate: false
+  xy: 28, 117
+  size: 11, 219
+  orig: 11, 219
+  offset: 0, 0
+  index: -1
+skin-3/shouder
+  rotate: true
+  xy: 426, 203
+  size: 15, 105
+  orig: 15, 105
+  offset: 0, 0
+  index: -1
+skin-3/thigh
+  rotate: false
+  xy: 378, 200
+  size: 14, 137
+  orig: 14, 137
+  offset: 0, 0
+  index: -1
+skin-4/body
+  rotate: false
+  xy: 41, 117
+  size: 11, 219
+  orig: 11, 219
+  offset: 0, 0
+  index: -1
+skin-4/shouder
+  rotate: false
+  xy: 583, 232
+  size: 15, 105
+  orig: 15, 105
+  offset: 0, 0
+  index: -1
+skin-4/thigh
+  rotate: false
+  xy: 394, 200
+  size: 14, 137
+  orig: 14, 137
+  offset: 0, 0
+  index: -1
+skin-5/body
+  rotate: false
+  xy: 54, 117
+  size: 11, 219
+  orig: 11, 219
+  offset: 0, 0
+  index: -1
+skin-5/shouder
+  rotate: false
+  xy: 600, 232
+  size: 15, 105
+  orig: 15, 105
+  offset: 0, 0
+  index: -1
+skin-5/thigh
+  rotate: false
+  xy: 410, 200
+  size: 14, 137
+  orig: 14, 137
+  offset: 0, 0
+  index: -1
+skin-6/body
+  rotate: false
+  xy: 67, 117
+  size: 11, 219
+  orig: 11, 219
+  offset: 0, 0
+  index: -1
+skin-6/shouder
+  rotate: false
+  xy: 617, 232
+  size: 15, 105
+  orig: 15, 105
+  offset: 0, 0
+  index: -1
+skin-6/thigh
+  rotate: false
+  xy: 390, 10
+  size: 14, 137
+  orig: 14, 137
+  offset: 0, 0
+  index: -1
+song_1
+  rotate: true
+  xy: 728, 34
+  size: 30, 69
+  orig: 30, 69
+  offset: 0, 0
+  index: -1
+thoi
+  rotate: true
+  xy: 406, 23
+  size: 124, 92
+  orig: 124, 92
+  offset: 0, 0
+  index: -1
+water_mouth
+  rotate: false
+  xy: 578, 432
+  size: 23, 50
+  orig: 23, 50
+  offset: 0, 0
+  index: -1
+xiu
+  rotate: true
+  xy: 79, 338
+  size: 47, 42
+  orig: 47, 42
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: true
+  xy: 155, 341
+  size: 44, 71
+  orig: 44, 71
+  offset: 0, 0
+  index: -1

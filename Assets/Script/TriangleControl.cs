@@ -6,14 +6,13 @@ public class TriangleControl : MonoBehaviour
 {
     private bool isDragging = false;
     private bool isInteractable = true;
-    public GameObject button; // Tham chiếu đến Button trên hình tam giác
-    private PolygonCollider2D polygonCollider; // Collider của tam giác
+    public GameObject button;
+    private PolygonCollider2D polygonCollider; 
 
     private void Start()
     {
-        // Lấy PolygonCollider2D
         polygonCollider = GetComponent<PolygonCollider2D>();
-        UpdateButtonPosition(); // Đặt vị trí nút ban đầu
+        UpdateButtonPosition();
     }
 
     private void Update()
@@ -41,7 +40,6 @@ public class TriangleControl : MonoBehaviour
 
             transform.position = touchPosition;
 
-            // Cập nhật vị trí button sau khi di chuyển tam giác
             UpdateButtonPosition();
         }
 
@@ -63,29 +61,24 @@ public class TriangleControl : MonoBehaviour
         Collider2D collider = Physics2D.OverlapPoint(touchPos);
         return collider != null && collider.gameObject == gameObject;
     }
-
     public void SetInteractable(bool interactable)
     {
         isInteractable = interactable;
     }
-
     public void OnRotation()
     {
         transform.Rotate(0, 0, 90);
-        // Cập nhật vị trí button sau khi xoay tam giác
         UpdateButtonPosition();
     }
 
     private void UpdateButtonPosition()
     {
-        // Lấy các đỉnh từ PolygonCollider2D
         Vector2[] points = polygonCollider.points;
 
         if (points.Length > 0)
         {
-            // Tính toán vị trí đỉnh trên (đỉnh thứ nhất trong PolygonCollider)
             Vector3 topVertex = transform.TransformPoint(points[0]);
-            button.transform.position = topVertex; // Cập nhật vị trí của button
+            button.transform.position = topVertex;
         }
     }
 }
