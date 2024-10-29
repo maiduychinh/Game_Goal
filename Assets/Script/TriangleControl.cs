@@ -1,58 +1,25 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TriangleControl : MonoBehaviour
 {
     private bool isDragging = false;
-    private bool isInteractable = true; // Biến để kiểm tra có thể tương tác
+    private bool isInteractable = true;
+    public GameObject button; // Tham chiếu đến Button trên hình tam giác
+    private PolygonCollider2D polygonCollider; // Collider của tam giác
+
+    private void Start()
+    {
+        // Lấy PolygonCollider2D
+        polygonCollider = GetComponent<PolygonCollider2D>();
+        UpdateButtonPosition(); // Đặt vị trí nút ban đầu
+    }
 
     private void Update()
     {
-        if (isDragging && isInteractable)
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = mousePosition;
-        }
-    }
-
-    private void OnMouseDown()
-    {
-        if (isInteractable && Input.GetMouseButtonDown(0))
-        {
-            isDragging = true;
-        }
-    }
-
-    private void OnMouseUp()
-    {
-        isDragging = false;
-    }
-
-    public void SetInteractable(bool interactable)
-    {
-        isInteractable = interactable;
-    }
-    public void OnRotation()
-    {
-        transform.Rotate(0, 0, 90);
-    }
-}
-*/
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TriangleControl : MonoBehaviour
-{
-    private bool isDragging = false;
-    private bool isInteractable = true; 
-    private void Update()
-    {
-        
         if (isInteractable && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
         {
-           
             if (IsTouchingTriangle())
             {
                 isDragging = true;
@@ -73,16 +40,17 @@ public class TriangleControl : MonoBehaviour
             }
 
             transform.position = touchPosition;
+
+            // Cập nhật vị trí button sau khi di chuyển tam giác
+            UpdateButtonPosition();
         }
 
-        
         if ((Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)))
         {
             isDragging = false;
         }
     }
 
-    
     private bool IsTouchingTriangle()
     {
         Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -104,7 +72,21 @@ public class TriangleControl : MonoBehaviour
     public void OnRotation()
     {
         transform.Rotate(0, 0, 90);
+        // Cập nhật vị trí button sau khi xoay tam giác
+        UpdateButtonPosition();
+    }
+
+    private void UpdateButtonPosition()
+    {
+        // Lấy các đỉnh từ PolygonCollider2D
+        Vector2[] points = polygonCollider.points;
+
+        if (points.Length > 0)
+        {
+            // Tính toán vị trí đỉnh trên (đỉnh thứ nhất trong PolygonCollider)
+            Vector3 topVertex = transform.TransformPoint(points[0]);
+            button.transform.position = topVertex; // Cập nhật vị trí của button
+        }
     }
 }
-
 

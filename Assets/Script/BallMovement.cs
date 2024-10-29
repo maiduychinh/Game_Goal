@@ -36,6 +36,13 @@ public class BallMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+        if (other is EdgeCollider2D && !hasWon)
+        {
+            UiController.instance.gameOver.OnOpen();
+            GameController.instance.DestroyLevel(); 
+            hasWon = true; 
+        }
         if (other.gameObject.CompareTag("Goal") && !hasWon)
         {
             GameController.instance.DoWin();
@@ -49,11 +56,8 @@ public class BallMovement : MonoBehaviour
             GameController.instance.DestroyLevel();
             hasWon = true;
         }
-
-
-
-
     }
+
 }
 
  

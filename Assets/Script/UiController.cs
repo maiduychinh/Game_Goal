@@ -10,6 +10,7 @@ public class UiController : MonoBehaviour
     public Spawner spawner;
     public PauseWin pauseWin;
     public GameOver gameOver;
+    
 
     private void Awake()
     {

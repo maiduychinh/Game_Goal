@@ -72,13 +72,13 @@ public class GameController : MonoBehaviour
     }
     public void PauseGame()
     {
-        // Dừng game
+       
         Time.timeScale = 0;
         Debug.Log("Game Pause.");
     }
     public void ContinueGame()
     {
-        // Tiếp tục game
+       
         Time.timeScale = 1;
         Debug.Log("Game Resumed.");
     }
