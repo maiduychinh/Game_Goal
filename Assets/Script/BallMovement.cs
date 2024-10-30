@@ -25,6 +25,15 @@ public class BallMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ballCollider = GetComponent<Collider2D>();
     }
+    public void OpenCollider()
+    {
+        ballCollider.enabled = true;
+    }
+    public void CloseCollider()
+    {
+        ballCollider.enabled = false;
+
+    }
 
     private void Update()
     {
@@ -49,30 +58,58 @@ public class BallMovement : MonoBehaviour
 
         }
     }
+    /* private void HandleSwipe(Vector2 swipeDirection)
+     {
+         // Di chuyển đối tượng kích hoạt đến vị trí mới
+         Vector2 newPosition = (Vector2)transform.position - swipeDirection.normalized * spawnDistance;
+         objectToActivate.SetActive(true);
+         objectToActivate.transform.position = newPosition;
 
+         // Bắt đầu quá trình tắt đối tượng và sau đó di chuyển bóng
+         StartCoroutine(DeactivateObjectAndMoveBall(swipeDirection));
+     }*/
     private void HandleSwipe(Vector2 swipeDirection)
     {
-        
-        Vector2 newPosition = (Vector2)transform.position - swipeDirection.normalized * spawnDistance;
+        // Xác định hướng di chuyển chính
+        Vector2 moveDirection;
+
+        // Kiểm tra thành phần lớn nhất của swipeDirection để xác định hướng di chuyển
+        if (Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y))
+        {
+            // Di chuyển theo trục X (trái hoặc phải)
+            moveDirection = swipeDirection.x > 0 ? Vector2.right : Vector2.left;
+        }
+        else
+        {
+            // Di chuyển theo trục Y (trên hoặc dưới)
+            moveDirection = swipeDirection.y > 0 ? Vector2.up : Vector2.down;
+        }
+
+        // Di chuyển đối tượng kích hoạt đến vị trí mới
+        Vector2 newPosition = (Vector2)transform.position + moveDirection * spawnDistance;
         objectToActivate.SetActive(true);
-        objectToActivate.transform.position = newPosition; 
+        objectToActivate.transform.position = newPosition;
 
-        // SetActive
-        StartCoroutine(DeactivateObjectAfterDelay(objectDuration));
-
-        // V ball
-        rb.velocity = swipeDirection.normalized * speed;
-
-        triangleRed.SetInteractable(false);
-        triangleRed1.SetInteractable(false);
-        btnRotate1.OnClose();
-        btnRotate2.OnClose();
+        // Bắt đầu quá trình tắt đối tượng và sau đó di chuyển bóng
+        StartCoroutine(DeactivateObjectAndMoveBall(moveDirection));
     }
 
-    private IEnumerator DeactivateObjectAfterDelay(float duration)
+
+    private IEnumerator DeactivateObjectAndMoveBall(Vector2 swipeDirection)
     {
-        yield return new WaitForSeconds(duration); //Time anim
-        objectToActivate.SetActive(false); 
+        // Đợi thời gian tắt đối tượng
+        yield return new WaitForSeconds(objectDuration);
+        objectToActivate.SetActive(false);
+
+        // Sau khi tắt objectToActivate, bóng mới di chuyển
+        rb.velocity = swipeDirection.normalized * speed;
+
+        triangleRed.SetInteractable(false); // Vô hiệu hóa tương tác với tam giác
+        triangleRed1.SetInteractable(false);
+        btnRotate1.OnClose(); // Đóng nút xoay
+        btnRotate2.OnClose();
+        ballCollider.enabled = true;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -80,6 +117,12 @@ public class BallMovement : MonoBehaviour
         if (collision.collider is EdgeCollider2D)
         {
             rb.velocity = Vector2.zero;
+            triangleRed.SetInteractable(true); 
+            triangleRed1.SetInteractable(true);
+            btnRotate1.OnOpen();
+            btnRotate2.OnOpen();
+            
+
         }
         else if (collision.gameObject.CompareTag("Goal") && !hasWon)
         {
@@ -90,6 +133,12 @@ public class BallMovement : MonoBehaviour
         else if (collision.gameObject.CompareTag("War") && !hasWon)
         {
             rb.velocity = Vector2.zero;
+            triangleRed.SetInteractable(true);
+            triangleRed1.SetInteractable(true);
+            btnRotate1.OnOpen();
+            btnRotate2.OnOpen();
+           
+
         }
     }
 }

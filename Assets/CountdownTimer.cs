@@ -3,14 +3,14 @@ using UnityEngine.UI;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public float timeRemaining = 60; // Số giây đếm ngược
-    public Text countdownText; // Tham chiếu đến Text UI
+    public float timeRemaining = 60; 
+    public Text countdownText;
 
     private bool timerIsRunning = false;
 
     public void OnStart()
     {
-        timerIsRunning = true; // Bắt đầu chạy timer
+        timerIsRunning = true; 
     }
 
     void Update()
@@ -26,15 +26,16 @@ public class CountdownTimer : MonoBehaviour
             {
                 timeRemaining = 0;
                 timerIsRunning = false;
-                // Thực hiện hành động khi hết thời gian
                 Debug.Log("Time's up!");
+                UiController.instance.gameOver.OnOpen();
+                GameController.instance.DestroyLevel();
             }
         }
     }
 
     void DisplayTime(float timeToDisplay)
     {
-        timeToDisplay += 1; // Để hiển thị thời gian đúng
+        timeToDisplay += 1;
 
         float minutes = Mathf.FloorToInt(timeToDisplay / 60);
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);

@@ -7,7 +7,7 @@ public class GameOver : MonoBehaviour
     public void OnOpen()
     {
         this.gameObject.SetActive(true);
-       
+        Debug.Log("Time's up!");
     }
 
     public void OnClose()
