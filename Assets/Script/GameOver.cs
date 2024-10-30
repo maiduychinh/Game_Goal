@@ -7,7 +7,7 @@ public class GameOver : MonoBehaviour
     public void OnOpen()
     {
         this.gameObject.SetActive(true);
-
+       
     }
 
     public void OnClose()
