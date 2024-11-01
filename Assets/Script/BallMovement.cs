@@ -116,12 +116,7 @@ public class BallMovement : MonoBehaviour
             triangleRed1.NewinitialPosition();
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
         }
-        else if (collision.gameObject.CompareTag("Goal") && !hasWon)
-        {
-            GameController.instance.DoWin();
-            GameController.instance.DestroyLevel();
-            hasWon = true;
-        }
+        
         else if (collision.gameObject.CompareTag("War") && !hasWon)
         {
             rb.velocity = Vector2.zero;

@@ -7,7 +7,12 @@ public class TriangleControl : MonoBehaviour
     public Goal goal;
     public War war;
     public GameObject button; // Nút trên hình tam giác
+    public GameObject A; // Nút trên hình tam giác
+    public GameObject B; // Nút trên hình tam giác
+
     public BallMovement ballMovement;
+
+
     private bool isDragging = false; // Biến kiểm tra trạng thái kéo thả
     private bool isInteractable = true; // Biến kiểm tra có thể tương tác không
     private EdgeCollider2D edgeCollider; // Thêm biến cho EdgeCollider2D
@@ -16,6 +21,13 @@ public class TriangleControl : MonoBehaviour
     private Vector2 initialPosition; // Vị trí ban đầu của tam giác
     private SpriteRenderer spriteRenderer; // Thêm biến để lưu SpriteRenderer của tam giác
     private Color originalColor; // Lưu màu ban đầu của tam giác
+
+
+    private Vector2 pointA; // Vị trí điểm A (đỉnh nhọn 1)
+    private Vector2 pointB; // Vị trí điểm B (đỉnh nhọn 2)
+
+
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // Lấy SpriteRenderer của tam giác
@@ -23,6 +35,8 @@ public class TriangleControl : MonoBehaviour
         polygonCollider = GetComponent<PolygonCollider2D>();
         edgeCollider = GetComponent<EdgeCollider2D>(); // Khởi tạo EdgeCollider2D
         SetButtonPosition(); // Đặt vị trí của nút
+        SetB();
+        SetA();
         NewinitialPosition();
 
 
@@ -186,7 +200,40 @@ public class TriangleControl : MonoBehaviour
     {
         transform.Rotate(0, 0, 90); // Xoay tam giác 90 độ
     }
+    private void SetA()
+    {
+        Vector2[] points = polygonCollider.points; // Lấy các điểm từ PolygonCollider
+        if (points.Length > 0)
+        {
+            Vector3 topVertex = transform.TransformPoint(points[5]); // Đỉnh trên của tam giác
 
+            // Kiểm tra xem "A" có Collider2D không và lấy chiều cao
+            Collider2D collider = A.GetComponent<Collider2D>();
+            float height = collider != null ? collider.bounds.size.y : 1.0f; // Giá trị chiều cao cố định nếu không có collider
+
+            Vector3 offset = new Vector3(18 * height, -10 * height, 0); // Tính offset dựa vào chiều cao
+
+            A.transform.position = topVertex + offset; // Đặt vị trí cho GameObject B
+        }
+    }
+    private void SetB()
+    {
+        Vector2[] points = polygonCollider.points; // Lấy các điểm từ PolygonCollider
+        if (points.Length > 0)
+        {
+            Vector3 topVertex = transform.TransformPoint(points[0]); // Đỉnh trên của tam giác
+
+            // Kiểm tra xem "B" có Collider2D không và lấy chiều cao
+            Collider2D collider = B.GetComponent<Collider2D>();
+            float height = collider != null ? collider.bounds.size.y : 1.0f; // Giá trị chiều cao cố định nếu không có collider
+
+            Vector3 offset = new Vector3(18*height, -10*height , 0); // Tính offset dựa vào chiều cao
+
+            B.transform.position = topVertex + offset; // Đặt vị trí cho GameObject B
+        }
+    }
+
+    
     private void SetButtonPosition()
     {
         Vector2[] points = polygonCollider.points;
