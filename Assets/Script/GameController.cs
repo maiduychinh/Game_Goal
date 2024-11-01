@@ -25,6 +25,10 @@ public class GameController : MonoBehaviour
         DestroyLevel();
         if (id >= 1 && id <= 10) {
             GameObject levelPrefab = Resources.Load<GameObject>(levelPath);
+            if (levelPrefab == null)
+            {
+                LoadLevel(1);     
+            }    
             if (levelPrefab != null)
             {
 

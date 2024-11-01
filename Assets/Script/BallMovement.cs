@@ -6,12 +6,13 @@ public class BallMovement : MonoBehaviour
 {
     private bool hasWon = false;
     public float speed = 5f;
-
+    public War war;
+    public Goal goal;
     public BtnRotate btnRotate1;
     public BtnRotate btnRotate2;
     private Rigidbody2D rb;
     private Collider2D ballCollider;
-    public TriangleControl triangleRed;
+    public TriangleControl triangleRed2;
     public TriangleControl triangleRed1;
     public CountdownTimer countdown;
     public GameObject objectToActivate; 
@@ -72,10 +73,11 @@ public class BallMovement : MonoBehaviour
         {
             moveDirection = swipeDirection.y > 0 ? Vector2.up : Vector2.down;
         }
-
+        war.SetBodyType(RigidbodyType2D.Kinematic);
         Vector2 newPosition = (Vector2)transform.position - swipeDirection.normalized * spawnDistance;
         objectToActivate.SetActive(true);
         objectToActivate.transform.position = newPosition;
+        
         StartCoroutine(DeactivateObjectAndMoveBall(moveDirection));
     }
 
@@ -87,24 +89,31 @@ public class BallMovement : MonoBehaviour
 
         rb.velocity = swipeDirection.normalized * speed;
 
-        triangleRed.SetInteractable(false); 
+        triangleRed2.SetInteractable(false); 
         triangleRed1.SetInteractable(false);
-        triangleRed.OnEdgeCollider2D();
+        triangleRed2.OnEdgeCollider2D();
         triangleRed1.OnEdgeCollider2D();
         btnRotate1.OnClose(); 
         btnRotate2.OnClose();
         
 
     }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+
         if (collision.collider is EdgeCollider2D)
         {
             rb.velocity = Vector2.zero;
             initialPositionBall = transform.position;
-            triangleRed.OffEdgeCollider2D();
+            triangleRed2.OffEdgeCollider2D();
             triangleRed1.OffEdgeCollider2D();
+            war.SetBodyType(RigidbodyType2D.Dynamic);
+            goal.SetBodyType(RigidbodyType2D.Dynamic);
 
+            triangleRed2.NewinitialPosition();
+            triangleRed1.NewinitialPosition();
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
         }
         else if (collision.gameObject.CompareTag("Goal") && !hasWon)
@@ -117,8 +126,12 @@ public class BallMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             initialPositionBall = transform.position;
-            triangleRed.OffEdgeCollider2D();
+            triangleRed2.OffEdgeCollider2D();
             triangleRed1.OffEdgeCollider2D();
+            triangleRed2.NewinitialPosition();
+            triangleRed1.NewinitialPosition();
+            war.SetBodyType(RigidbodyType2D.Dynamic);
+            goal.SetBodyType(RigidbodyType2D.Dynamic);
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
         }
     }
@@ -131,7 +144,7 @@ public class BallMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        triangleRed.SetInteractable(true);
+        triangleRed2.SetInteractable(true);
         triangleRed1.SetInteractable(true);
         
         btnRotate1.OnOpen();
