@@ -23,8 +23,8 @@ public class TriangleControl : MonoBehaviour
     private Color originalColor; // Lưu màu ban đầu của tam giác
 
 
-    private Vector2 pointA; // Vị trí điểm A (đỉnh nhọn 1)
-    private Vector2 pointB; // Vị trí điểm B (đỉnh nhọn 2)
+    private Vector2 pa; // Vị trí điểm A (đỉnh nhọn 1)
+    private Vector2 pb; // Vị trí điểm B (đỉnh nhọn 2)
 
 
 
@@ -142,16 +142,42 @@ public class TriangleControl : MonoBehaviour
         {
             ballMovement.ResetPosition();
             ResetPosition();
-        }
-    
+            Debug.Log("EdgeCollider2D");
+            ballMovement.rb.velocity = Vector2.zero;
+            ballMovement.UpdateinitialPositionBall();
+            
 
+            OffEdgeCollider2D();
+            
+            war.SetBodyType(RigidbodyType2D.Dynamic);
+            goal.SetBodyType(RigidbodyType2D.Dynamic);
+
+            NewinitialPosition();
+            
+        }
         
 
 
-    }
-   
 
-   
+
+
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Kiểm tra nếu tam giác va chạm với quả bóng
+        if (polygonCollider.IsTouching(ballMovement.GetComponent<Collider2D>()) && edgeCollider.enabled == true)
+        {
+            ballMovement.rb.velocity = Vector2.zero;
+            Debug.Log("polygonCollider");
+            ChangeDirection();
+            
+
+        }
+    }
+
+
+
 
     public void OnEdgeCollider2D()
     {
@@ -166,6 +192,8 @@ public class TriangleControl : MonoBehaviour
     public void ResetPosition()
     {
         transform.position = initialPosition;
+        SetA(); // Đặt lại vị trí A
+        SetB(); // Đặt lại vị trí B
     }
 
     private Vector2 GetTouchPosition()
@@ -200,49 +228,87 @@ public class TriangleControl : MonoBehaviour
     {
         transform.Rotate(0, 0, 90); // Xoay tam giác 90 độ
     }
+  
     private void SetA()
     {
         Vector2[] points = polygonCollider.points; // Lấy các điểm từ PolygonCollider
         if (points.Length > 0)
         {
-            Vector3 topVertex = transform.TransformPoint(points[5]); // Đỉnh trên của tam giác
+            pa = transform.TransformPoint(points[5]); // Đỉnh trên của tam giác
 
-            // Kiểm tra xem "A" có Collider2D không và lấy chiều cao
-            Collider2D collider = A.GetComponent<Collider2D>();
-            float height = collider != null ? collider.bounds.size.y : 1.0f; // Giá trị chiều cao cố định nếu không có collider
-
-            Vector3 offset = new Vector3(18 * height, -10 * height, 0); // Tính offset dựa vào chiều cao
-
-            A.transform.position = topVertex + offset; // Đặt vị trí cho GameObject B
         }
     }
+
     private void SetB()
     {
         Vector2[] points = polygonCollider.points; // Lấy các điểm từ PolygonCollider
         if (points.Length > 0)
         {
-            Vector3 topVertex = transform.TransformPoint(points[0]); // Đỉnh trên của tam giác
+            pb = transform.TransformPoint(points[0]); 
 
-            // Kiểm tra xem "B" có Collider2D không và lấy chiều cao
-            Collider2D collider = B.GetComponent<Collider2D>();
-            float height = collider != null ? collider.bounds.size.y : 1.0f; // Giá trị chiều cao cố định nếu không có collider
-
-            Vector3 offset = new Vector3(18*height, -10*height , 0); // Tính offset dựa vào chiều cao
-
-            B.transform.position = topVertex + offset; // Đặt vị trí cho GameObject B
         }
     }
 
-    
+
     private void SetButtonPosition()
     {
         Vector2[] points = polygonCollider.points;
 
         if (points.Length > 0)
         {
-            Vector3 topVertex = transform.TransformPoint(points[0]); // Đỉnh trên của tam giác
+            Vector3 topVertex = transform.TransformPoint(points[0]); 
             Vector3 offset = new Vector3(0, -button.GetComponent<RectTransform>().rect.height / 2, 0);
-            button.transform.position = topVertex + offset; // Đặt nút ở vị trí tính toán
+            button.transform.position = topVertex + offset; 
         }
     }
+   
+    public void ChangeDirection()
+    {
+        SetA();
+        SetB();
+
+
+        Vector2 pa = A.transform.position;
+        Vector2 pb = B.transform.position;
+
+        ballMovement.rb.velocity = Vector2.zero;
+        Debug.Log("ballMovement.rb.velocity = Vector2.zero;");
+
+        if (ballMovement.currentDirection == Vector2.right && ballMovement.initialPositionBall.y > pb.y && ballMovement.initialPositionBall.x < pa.x)
+        {
+            if (pa.x > pb.x && pa.y > pb.y)
+                ballMovement.currentDirection = Vector2.up;
+            else if(  pa.x < pb.x && pa.y > pb.y)
+                ballMovement.currentDirection = Vector2.down;
+            
+                   
+        }
+        else if (ballMovement.currentDirection == Vector2.left && ballMovement.initialPositionBall.x > pb.x && ballMovement.initialPositionBall.y > pa.y-109/1000)
+        {
+            if (pa.x < pb.x && pa.y < pb.y) 
+                ballMovement.currentDirection = Vector2.down;
+            else if (pa.x > pb.x && pa.y < pb.y) 
+                ballMovement.currentDirection = Vector2.up;
+        }
+        else if (ballMovement.currentDirection == Vector2.up && ballMovement.initialPositionBall.x < pb.x && ballMovement.initialPositionBall.y < pa.y+109/1000)
+        {
+            if (pa.x < pb.x && pa.y > pb.y) 
+                ballMovement.currentDirection = Vector2.left;
+            else if (pa.x < pb.x && pa.y < pb.y) 
+                ballMovement.currentDirection = Vector2.right;
+        }
+        else if (ballMovement.currentDirection == Vector2.down && ballMovement.initialPositionBall.x > pb.x && ballMovement.initialPositionBall.y > pa.y)
+        {
+            if (pa.x > pb.x && pa.y > pb.y) 
+                ballMovement.currentDirection = Vector2.left;
+            else if (pa.x > pb.x && pa.y < pb.y) 
+                ballMovement.currentDirection = Vector2.right;
+        }
+        ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+        StartCoroutine(ballMovement.ActivateTrianglesAndButtonsWithDelay());
+        ballMovement.UpdateinitialPositionBall();
+
+    }
+
+
 }

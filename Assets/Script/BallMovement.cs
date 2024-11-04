@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
+    public Vector2 currentDirection; // Lưu hướng di chuyển hiện tại của bóng
     private bool hasWon = false;
     public float speed = 5f;
     public War war;
     public Goal goal;
     public BtnRotate btnRotate1;
     public BtnRotate btnRotate2;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Collider2D ballCollider;
     public TriangleControl triangleRed2;
     public TriangleControl triangleRed1;
@@ -20,7 +21,7 @@ public class BallMovement : MonoBehaviour
     public float objectDuration = 0.3f;
     public bool OnPosition = false;
     private Vector2 startTouchPosition, endTouchPosition;
-    private Vector2 initialPositionBall; 
+    public Vector2 initialPositionBall; 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,18 +54,26 @@ public class BallMovement : MonoBehaviour
             endTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 swipeDirection = endTouchPosition - startTouchPosition;
 
-            HandleSwipe(swipeDirection); 
+            HandleSwipe(swipeDirection);
 
             startTouchPosition = Vector2.zero;
             countdown.OnStart();
 
-        }   
+        }
     }
-    
+    public void UpdateinitialPositionBall()
+    {
+        initialPositionBall = transform.position;
+    }
+
+
     private void HandleSwipe(Vector2 swipeDirection)
     {
         Vector2 moveDirection;
-
+        // Kiểm tra hướng và gán giá trị cho currentDirection
+        currentDirection = Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y) ?
+                           (swipeDirection.x > 0 ? Vector2.right : Vector2.left) :
+                           (swipeDirection.y > 0 ? Vector2.up : Vector2.down);
         if (Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y))
         {
             moveDirection = swipeDirection.x > 0 ? Vector2.right : Vector2.left;
@@ -105,8 +114,10 @@ public class BallMovement : MonoBehaviour
 
         if (collision.collider is EdgeCollider2D)
         {
+            Debug.Log("EdgeCollider2D");
             rb.velocity = Vector2.zero;
             initialPositionBall = transform.position;
+
             triangleRed2.OffEdgeCollider2D();
             triangleRed1.OffEdgeCollider2D();
             war.SetBodyType(RigidbodyType2D.Dynamic);
@@ -116,11 +127,19 @@ public class BallMovement : MonoBehaviour
             triangleRed1.NewinitialPosition();
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
         }
-        
+        else if (collision.gameObject.CompareTag("Goal") && !hasWon)
+        {
+            GameController.instance.DoWin();
+            GameController.instance.DestroyLevel();
+            hasWon = true;
+        }
         else if (collision.gameObject.CompareTag("War") && !hasWon)
         {
-            rb.velocity = Vector2.zero;
+            Debug.Log("War");
             initialPositionBall = transform.position;
+            ResetPosition();
+            rb.velocity = Vector2.zero;
+           
             triangleRed2.OffEdgeCollider2D();
             triangleRed1.OffEdgeCollider2D();
             triangleRed2.NewinitialPosition();
@@ -129,13 +148,14 @@ public class BallMovement : MonoBehaviour
             goal.SetBodyType(RigidbodyType2D.Dynamic);
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
         }
+       
     }
     public void ResetPosition()
     {
         transform.position = initialPositionBall;
         
     }
-    private IEnumerator ActivateTrianglesAndButtonsWithDelay()
+    public IEnumerator ActivateTrianglesAndButtonsWithDelay()
     {
         yield return new WaitForSeconds(0.2f);
 
