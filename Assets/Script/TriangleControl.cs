@@ -165,7 +165,6 @@ public class TriangleControl : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Kiểm tra nếu tam giác va chạm với quả bóng
         if (polygonCollider.IsTouching(ballMovement.GetComponent<Collider2D>()) && edgeCollider.enabled == true)
         {
             ballMovement.rb.velocity = Vector2.zero;
@@ -266,45 +265,89 @@ public class TriangleControl : MonoBehaviour
     {
         SetA();
         SetB();
-
-
         Vector2 pa = A.transform.position;
         Vector2 pb = B.transform.position;
+        Debug.Log(pa);
+        Debug.Log(pb);
+        Debug.Log(ballMovement.initialPositionBall);
+        Debug.Log(ballMovement.initialPositionBall.y - (pa.y + 83 / 100));
 
-        ballMovement.rb.velocity = Vector2.zero;
-        Debug.Log("ballMovement.rb.velocity = Vector2.zero;");
-
-        if (ballMovement.currentDirection == Vector2.right && ballMovement.initialPositionBall.y > pb.y && ballMovement.initialPositionBall.x < pa.x)
+        if (ballMovement.currentDirection == Vector2.right )
         {
-            if (pa.x > pb.x && pa.y > pb.y)
-                ballMovement.currentDirection = Vector2.up;
-            else if(  pa.x < pb.x && pa.y > pb.y)
-                ballMovement.currentDirection = Vector2.down;
+           
             
-                   
+                if (pa.x > pb.x && pa.y > pb.y && ballMovement.initialPositionBall.y > (pb.y - 17 / 25))
+                {
+
+                    ballMovement.currentDirection = Vector2.up;
+                    ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                    Debug.Log("up");
+                }
+                else if (pa.x < pb.x && pa.y > pb.y && ballMovement.initialPositionBall.y < (pa.y + 83 / 100))
+                {
+                    ballMovement.currentDirection = Vector2.down;
+                    ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                    Debug.Log("down");
+
+                }
         }
-        else if (ballMovement.currentDirection == Vector2.left && ballMovement.initialPositionBall.x > pb.x && ballMovement.initialPositionBall.y > pa.y-109/1000)
+        else if (ballMovement.currentDirection == Vector2.left )
         {
-            if (pa.x < pb.x && pa.y < pb.y) 
+            if (pa.x < pb.x && pa.y < pb.y && ballMovement.initialPositionBall.y < pb.y)
+            {
                 ballMovement.currentDirection = Vector2.down;
-            else if (pa.x > pb.x && pa.y < pb.y) 
+                ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                Debug.Log("down");
+
+
+            }
+
+            else if (pa.x > pb.x && pa.y < pb.y && ballMovement.initialPositionBall.y > (pa.y - 109 / 1000))
+            {
+
                 ballMovement.currentDirection = Vector2.up;
+                ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                Debug.Log("up");
+
+
+            }
+
         }
-        else if (ballMovement.currentDirection == Vector2.up && ballMovement.initialPositionBall.x < pb.x && ballMovement.initialPositionBall.y < pa.y+109/1000)
+        else if (ballMovement.currentDirection == Vector2.up  )
         {
-            if (pa.x < pb.x && pa.y > pb.y) 
+            if (pa.x < pb.x && pa.y > pb.y && ballMovement.initialPositionBall.x < pb.x)
+            {
                 ballMovement.currentDirection = Vector2.left;
-            else if (pa.x < pb.x && pa.y < pb.y) 
+                ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                Debug.Log("left");
+
+            }
+
+            else if (pa.x < pb.x && pa.y < pb.y && ballMovement.initialPositionBall.x > pa.x + 109 / 1000)
+            {
                 ballMovement.currentDirection = Vector2.right;
+                ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                Debug.Log("right");
+            }
+
         }
-        else if (ballMovement.currentDirection == Vector2.down && ballMovement.initialPositionBall.x > pb.x && ballMovement.initialPositionBall.y > pa.y)
+        else if (ballMovement.currentDirection == Vector2.down  )
         {
-            if (pa.x > pb.x && pa.y > pb.y) 
+            if (pa.x > pb.x && pa.y > pb.y && ballMovement.initialPositionBall.x < pa.x)
+            {
                 ballMovement.currentDirection = Vector2.left;
-            else if (pa.x > pb.x && pa.y < pb.y) 
+                ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                Debug.Log("left");
+            }
+
+            else if (pa.x > pb.x && pa.y < pb.y && ballMovement.initialPositionBall.x > pb.x)
+            {
                 ballMovement.currentDirection = Vector2.right;
+                ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
+                Debug.Log("right");
+            }
+
         }
-        ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
         StartCoroutine(ballMovement.ActivateTrianglesAndButtonsWithDelay());
         ballMovement.UpdateinitialPositionBall();
 
