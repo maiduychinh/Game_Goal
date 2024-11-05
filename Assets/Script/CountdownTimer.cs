@@ -26,7 +26,7 @@ public class CountdownTimer : MonoBehaviour
             {
                 timeRemaining = 0;
                 timerIsRunning = false;
-                Debug.Log("Time's up!");
+               
                 UiController.instance.gameOver.OnOpen();
                 GameController.instance.DestroyLevel();
             }

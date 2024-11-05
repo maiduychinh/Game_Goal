@@ -6,102 +6,83 @@ public class TriangleControl : MonoBehaviour
 {
     public Goal goal;
     public War war;
-    public GameObject button; // Nút trên hình tam giác
-    public GameObject A; // Nút trên hình tam giác
-    public GameObject B; // Nút trên hình tam giác
+    public GameObject button; 
+    public GameObject A; 
+    public GameObject B; 
 
     public BallMovement ballMovement;
 
 
-    private bool isDragging = false; // Biến kiểm tra trạng thái kéo thả
-    private bool isInteractable = true; // Biến kiểm tra có thể tương tác không
-    private EdgeCollider2D edgeCollider; // Thêm biến cho EdgeCollider2D
+    private bool isDragging = false; 
+    private bool isInteractable = true; 
+    private EdgeCollider2D edgeCollider; 
     private PolygonCollider2D polygonCollider;
-    private Vector2 dragOffset; // Độ lệch khi kéo thả
-    private Vector2 initialPosition; // Vị trí ban đầu của tam giác
-    private SpriteRenderer spriteRenderer; // Thêm biến để lưu SpriteRenderer của tam giác
-    private Color originalColor; // Lưu màu ban đầu của tam giác
-
-
-    private Vector2 pa; // Vị trí điểm A (đỉnh nhọn 1)
-    private Vector2 pb; // Vị trí điểm B (đỉnh nhọn 2)
-
-
-
+    private Vector2 dragOffset; 
+    private Vector2 initialPosition; 
+    private SpriteRenderer spriteRenderer; 
+    private Color originalColor;
+    private Vector2 pa; 
+    private Vector2 pb;
+    private int edgeColliderHitCount = 0; 
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>(); // Lấy SpriteRenderer của tam giác
-        originalColor = spriteRenderer.color; // Lưu màu ban đầu
+        spriteRenderer = GetComponent<SpriteRenderer>(); 
+        originalColor = spriteRenderer.color; 
         polygonCollider = GetComponent<PolygonCollider2D>();
-        edgeCollider = GetComponent<EdgeCollider2D>(); // Khởi tạo EdgeCollider2D
-        SetButtonPosition(); // Đặt vị trí của nút
+        edgeCollider = GetComponent<EdgeCollider2D>(); 
+        SetButtonPosition(); 
         SetB();
         SetA();
         NewinitialPosition();
-
-
-
-
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("War")) // Kiểm tra nếu va chạm với tường
+        if (collision.CompareTag("War")) 
         {
-            spriteRenderer.color = Color.yellow; // Đổi màu 
+            spriteRenderer.color = Color.yellow; 
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("War")) // Kiểm tra khi không còn va chạm với tường
+        if (collision.CompareTag("War")) 
         {
-            spriteRenderer.color = originalColor; // Trở lại màu ban đầu
+            spriteRenderer.color = originalColor; 
         }
     }
-
-
-
-
-
-
     public void NewinitialPosition()
     {
         initialPosition = transform.position;
-
     }
     private void Update()
     {
-     
         if (isInteractable && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
         {
             if (IsTouchingTriangle())
             {
                 isDragging = true;
                 Vector2 touchPosition = GetTouchPosition();
-                dragOffset = (Vector2)transform.position - touchPosition; // Tính độ lệch kéo
-                OffEdgeCollider2D(); // Tắt EdgeCollider2D khi bắt đầu kéo
+                dragOffset = (Vector2)transform.position - touchPosition; 
+                OffEdgeCollider2D(); 
                 war.SetBodyType(RigidbodyType2D.Dynamic);
                 war.SetTriggerState(true);
 
                 goal.SetBodyType(RigidbodyType2D.Dynamic);
                 goal.SetTriggerState(true);
                 NewinitialPosition();
-
-
             }
         }
 
         if (isDragging)
         {
             Vector2 touchPosition = GetTouchPosition();
-            transform.position = touchPosition + dragOffset; // Cập nhật vị trí của tam giác
+            transform.position = touchPosition + dragOffset; 
             ballMovement.CloseCollider();
         }
 
         if ((Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)))
         {
             
-            isDragging = false; // Dừng kéo khi thả chuột hoặc kết thúc chạm
+            isDragging = false; 
             OffEdgeCollider2D();
             ballMovement.OpenCollider();
             war.SetBodyType(RigidbodyType2D.Dynamic);
@@ -121,7 +102,6 @@ public class TriangleControl : MonoBehaviour
                     ResetPosition();
                     break;
 
-                    // Ngừng kiểm tra sau khi đã tìm thấy va chạm
                 }
             }
             foreach (Collider2D goalCollider in goal.colliders)
@@ -131,18 +111,17 @@ public class TriangleControl : MonoBehaviour
                     ResetPosition();
                     break;
 
-                    // Ngừng kiểm tra sau khi đã tìm thấy va chạm
                 }
             }
 
         }
 
-        // Kiểm tra nếu tam giác va chạm với quả bóng
         if (polygonCollider.IsTouching(ballMovement.GetComponent<Collider2D>()) && edgeCollider.enabled == false)
         {
-            ballMovement.ResetPosition();
             ResetPosition();
-            Debug.Log("EdgeCollider2D");
+            ballMovement.ResetPosition();
+            
+           
             ballMovement.rb.velocity = Vector2.zero;
             ballMovement.UpdateinitialPositionBall();
             
@@ -155,22 +134,39 @@ public class TriangleControl : MonoBehaviour
             NewinitialPosition();
             
         }
-        
-
-
-
-
 
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+       
+       
+        if (edgeCollider.IsTouching(ballMovement.GetComponent<Collider2D>()) && edgeCollider.enabled == true)
+        {
+            edgeColliderHitCount++;
+
+           
+            if (edgeColliderHitCount % 2 != 0)
+            {
+                ballMovement.UpdateinitialPositionBall();
+                ballMovement.rb.velocity = Vector2.zero;
+                OffEdgeCollider2D();
+
+                war.SetBodyType(RigidbodyType2D.Dynamic);
+                goal.SetBodyType(RigidbodyType2D.Dynamic);
+
+                NewinitialPosition();
+                StartCoroutine(ballMovement.ActivateTrianglesAndButtonsWithDelay());
+            }
+            return;
+        }
         if (polygonCollider.IsTouching(ballMovement.GetComponent<Collider2D>()) && edgeCollider.enabled == true)
         {
+           
             ballMovement.rb.velocity = Vector2.zero;
-            Debug.Log("polygonCollider");
             ChangeDirection();
-            
+            StartCoroutine(ballMovement.ActivateTrianglesAndButtonsWithDelay());
+            ballMovement.UpdateinitialPositionBall();
 
         }
     }
@@ -191,8 +187,8 @@ public class TriangleControl : MonoBehaviour
     public void ResetPosition()
     {
         transform.position = initialPosition;
-        SetA(); // Đặt lại vị trí A
-        SetB(); // Đặt lại vị trí B
+        SetA(); 
+        SetB(); 
     }
 
     private Vector2 GetTouchPosition()
@@ -220,27 +216,29 @@ public class TriangleControl : MonoBehaviour
 
     public void SetInteractable(bool interactable)
     {
-        isInteractable = interactable; // Đặt trạng thái có thể tương tác
+        isInteractable = interactable; 
     }
 
     public void OnRotation()
     {
-        transform.Rotate(0, 0, 90); // Xoay tam giác 90 độ
+
+        transform.Rotate(0, 0, 90);
+       
     }
-  
+
+
     private void SetA()
     {
-        Vector2[] points = polygonCollider.points; // Lấy các điểm từ PolygonCollider
+        Vector2[] points = polygonCollider.points;
         if (points.Length > 0)
         {
-            pa = transform.TransformPoint(points[5]); // Đỉnh trên của tam giác
-
+            pa = transform.TransformPoint(points[5]); 
         }
     }
 
     private void SetB()
     {
-        Vector2[] points = polygonCollider.points; // Lấy các điểm từ PolygonCollider
+        Vector2[] points = polygonCollider.points;
         if (points.Length > 0)
         {
             pb = transform.TransformPoint(points[0]); 
@@ -267,11 +265,7 @@ public class TriangleControl : MonoBehaviour
         SetB();
         Vector2 pa = A.transform.position;
         Vector2 pb = B.transform.position;
-        Debug.Log(pa);
-        Debug.Log(pb);
-        Debug.Log(ballMovement.initialPositionBall);
-        Debug.Log(ballMovement.initialPositionBall.y - (pa.y + 83 / 100));
-
+        
         if (ballMovement.currentDirection == Vector2.right )
         {
            
@@ -281,13 +275,11 @@ public class TriangleControl : MonoBehaviour
 
                     ballMovement.currentDirection = Vector2.up;
                     ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                    Debug.Log("up");
                 }
-                else if (pa.x < pb.x && pa.y > pb.y && ballMovement.initialPositionBall.y < (pa.y + 83 / 100))
+                else if (pa.x < pb.x && pa.y > pb.y && ballMovement.initialPositionBall.y < (pa.y + 90 / 100))
                 {
                     ballMovement.currentDirection = Vector2.down;
                     ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                    Debug.Log("down");
 
                 }
         }
@@ -297,7 +289,6 @@ public class TriangleControl : MonoBehaviour
             {
                 ballMovement.currentDirection = Vector2.down;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                Debug.Log("down");
 
 
             }
@@ -307,7 +298,6 @@ public class TriangleControl : MonoBehaviour
 
                 ballMovement.currentDirection = Vector2.up;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                Debug.Log("up");
 
 
             }
@@ -319,7 +309,6 @@ public class TriangleControl : MonoBehaviour
             {
                 ballMovement.currentDirection = Vector2.left;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                Debug.Log("left");
 
             }
 
@@ -327,7 +316,6 @@ public class TriangleControl : MonoBehaviour
             {
                 ballMovement.currentDirection = Vector2.right;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                Debug.Log("right");
             }
 
         }
@@ -337,19 +325,16 @@ public class TriangleControl : MonoBehaviour
             {
                 ballMovement.currentDirection = Vector2.left;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                Debug.Log("left");
             }
 
             else if (pa.x > pb.x && pa.y < pb.y && ballMovement.initialPositionBall.x > pb.x)
             {
                 ballMovement.currentDirection = Vector2.right;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
-                Debug.Log("right");
             }
 
         }
-        StartCoroutine(ballMovement.ActivateTrianglesAndButtonsWithDelay());
-        ballMovement.UpdateinitialPositionBall();
+        
 
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
-    public Vector2 currentDirection; // Lưu hướng di chuyển hiện tại của bóng
+    public Vector2 currentDirection;
     private bool hasWon = false;
     public float speed = 5f;
     public War war;
@@ -70,7 +70,7 @@ public class BallMovement : MonoBehaviour
     private void HandleSwipe(Vector2 swipeDirection)
     {
         Vector2 moveDirection;
-        // Kiểm tra hướng và gán giá trị cho currentDirection
+        
         currentDirection = Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y) ?
                            (swipeDirection.x > 0 ? Vector2.right : Vector2.left) :
                            (swipeDirection.y > 0 ? Vector2.up : Vector2.down);
@@ -100,6 +100,7 @@ public class BallMovement : MonoBehaviour
 
         triangleRed2.SetInteractable(false); 
         triangleRed1.SetInteractable(false);
+      
         triangleRed2.OnEdgeCollider2D();
         triangleRed1.OnEdgeCollider2D();
         btnRotate1.OnClose(); 
@@ -110,45 +111,49 @@ public class BallMovement : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-
-        if (collision.collider is EdgeCollider2D)
-        {
-            Debug.Log("EdgeCollider2D");
-            rb.velocity = Vector2.zero;
-            initialPositionBall = transform.position;
-
-            triangleRed2.OffEdgeCollider2D();
-            triangleRed1.OffEdgeCollider2D();
-            war.SetBodyType(RigidbodyType2D.Dynamic);
-            goal.SetBodyType(RigidbodyType2D.Dynamic);
-
-            triangleRed2.NewinitialPosition();
-            triangleRed1.NewinitialPosition();
-            StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
-        }
-        else if (collision.gameObject.CompareTag("Goal") && !hasWon)
+        
+        if (collision.gameObject.CompareTag("Goal") && !hasWon)
         {
             GameController.instance.DoWin();
             GameController.instance.DestroyLevel();
             hasWon = true;
+            return;
         }
+        
         else if (collision.gameObject.CompareTag("War") && !hasWon)
         {
-            Debug.Log("War");
+            Debug.Log("Đẩy");
+            ContactPoint2D contactPoint = collision.GetContact(0);
+
+            
+            Vector2 collisionNormal = contactPoint.normal;
+
+            
+            transform.position += (Vector3)collisionNormal * 0.1f;
+
+           
             initialPositionBall = transform.position;
             ResetPosition();
             rb.velocity = Vector2.zero;
+
            
             triangleRed2.OffEdgeCollider2D();
             triangleRed1.OffEdgeCollider2D();
+
+            
             triangleRed2.NewinitialPosition();
             triangleRed1.NewinitialPosition();
+
+            
             war.SetBodyType(RigidbodyType2D.Dynamic);
             goal.SetBodyType(RigidbodyType2D.Dynamic);
+
+            
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
+            
         }
-       
+
+
     }
     public void ResetPosition()
     {
@@ -157,7 +162,7 @@ public class BallMovement : MonoBehaviour
     }
     public IEnumerator ActivateTrianglesAndButtonsWithDelay()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
 
         triangleRed2.SetInteractable(true);
         triangleRed1.SetInteractable(true);
