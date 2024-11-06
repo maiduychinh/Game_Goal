@@ -39,7 +39,9 @@ public class TriangleControl : MonoBehaviour
     {
         if (collision.CompareTag("War")) 
         {
-            spriteRenderer.color = Color.yellow; 
+            spriteRenderer.color = Color.yellow;
+            
+
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -55,7 +57,7 @@ public class TriangleControl : MonoBehaviour
     }
     private void Update()
     {
-        if (isInteractable && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
+        if (isInteractable && Input.GetMouseButtonDown(0) )
         {
             if (IsTouchingTriangle())
             {
@@ -79,7 +81,7 @@ public class TriangleControl : MonoBehaviour
             ballMovement.CloseCollider();
         }
 
-        if ((Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)))
+        if ((Input.GetMouseButtonUp(0) /*||  Input.GetTouch(0).phase == TouchPhase.Ended)*/))
         {
             
             isDragging = false; 
@@ -134,9 +136,11 @@ public class TriangleControl : MonoBehaviour
             NewinitialPosition();
             
         }
+       
 
 
-    }
+
+        }
     private void OnCollisionEnter2D(Collision2D collision)
     {
        
@@ -169,6 +173,19 @@ public class TriangleControl : MonoBehaviour
             ballMovement.UpdateinitialPositionBall();
 
         }
+        
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (polygonCollider.IsTouching(ballMovement.GetComponent<Collider2D>()) && edgeCollider.enabled == true)
+        {
+
+           
+            ChangeDirection();
+            StartCoroutine(ballMovement.ActivateTrianglesAndButtonsWithDelay());
+            ballMovement.UpdateinitialPositionBall();
+
+        }
     }
 
 
@@ -186,6 +203,7 @@ public class TriangleControl : MonoBehaviour
 
     public void ResetPosition()
     {
+        Debug.Log("RếtPosition !!!");
         transform.position = initialPosition;
         SetA(); 
         SetB(); 
@@ -321,8 +339,10 @@ public class TriangleControl : MonoBehaviour
         }
         else if (ballMovement.currentDirection == Vector2.down  )
         {
+            Debug.Log("Di xuong");
             if (pa.x > pb.x && pa.y > pb.y && ballMovement.initialPositionBall.x < pa.x)
             {
+
                 ballMovement.currentDirection = Vector2.left;
                 ballMovement.rb.velocity = ballMovement.currentDirection * ballMovement.speed;
             }

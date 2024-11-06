@@ -33,6 +33,8 @@ public class War : MonoBehaviour
     private void Update()
     {
         ResetInitialPosition();
+
+
     }
 
     public void OpenColliders()

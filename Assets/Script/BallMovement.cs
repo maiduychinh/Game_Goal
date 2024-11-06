@@ -40,6 +40,7 @@ public class BallMovement : MonoBehaviour
 
     private void Update()
     {
+        OpenCollider();
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -60,6 +61,8 @@ public class BallMovement : MonoBehaviour
             countdown.OnStart();
 
         }
+        
+
     }
     public void UpdateinitialPositionBall()
     {
@@ -95,8 +98,9 @@ public class BallMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(objectDuration);
         objectToActivate.SetActive(false);
-
+        /////////////
         rb.velocity = swipeDirection.normalized * speed;
+       
 
         triangleRed2.SetInteractable(false); 
         triangleRed1.SetInteractable(false);
@@ -108,7 +112,7 @@ public class BallMovement : MonoBehaviour
         
 
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
@@ -119,24 +123,28 @@ public class BallMovement : MonoBehaviour
             hasWon = true;
             return;
         }
-        
+
+        // Kiểm tra nếu collider là PolygonCollider2D
+       
         else if (collision.gameObject.CompareTag("War") && !hasWon)
         {
             Debug.Log("Đẩy");
             ContactPoint2D contactPoint = collision.GetContact(0);
 
-            
+
             Vector2 collisionNormal = contactPoint.normal;
 
-            
+
             transform.position += (Vector3)collisionNormal * 0.1f;
 
-           
-            initialPositionBall = transform.position;
-            ResetPosition();
-            rb.velocity = Vector2.zero;
 
+            initialPositionBall = transform.position;
+
+            //ResetPosition();
+            rb.velocity = Vector2.zero;
            
+
+
             triangleRed2.OffEdgeCollider2D();
             triangleRed1.OffEdgeCollider2D();
 
@@ -147,11 +155,15 @@ public class BallMovement : MonoBehaviour
             
             war.SetBodyType(RigidbodyType2D.Dynamic);
             goal.SetBodyType(RigidbodyType2D.Dynamic);
-
+            CloseCollider();
             
             StartCoroutine(ActivateTrianglesAndButtonsWithDelay());
-            
+           
+
+
         }
+       
+
 
 
     }

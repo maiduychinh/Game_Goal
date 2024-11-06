@@ -15,13 +15,8 @@ public class MainMenu : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void OnClickPlay()
-    {
-        GameController.instance.CurrentID = 1;
-        GameController.instance.LoadLevel(GameController.instance.CurrentID);
-        this.OnClose();
-       
-    }
+   
+  
     
     public void Quit()
     {
